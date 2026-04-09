@@ -1,3 +1,4 @@
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using TA_UI.Views;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -28,6 +30,26 @@ namespace TA_UI
             InitializeComponent();
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
+            if (ExtendsContentIntoTitleBar)
+            {
+                AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
+            }
+        }
+
+        private async void DialogButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContentDialog cd = new ContentDialog()
+            {
+                Title = "Content Dialog",
+                Content = new Dialog1(),
+                PrimaryButtonText = "OK",
+                SecondaryButtonText = "Cancel",
+                CloseButtonText= "Close",
+                DefaultButton = ContentDialogButton.Primary,
+                Style = (Style)Application.Current.Resources["DefaultContentDialogStyle"],
+            };
+            cd.XamlRoot = this.Content.XamlRoot;
+            var result = await cd.ShowAsync();
         }
     }
 }
