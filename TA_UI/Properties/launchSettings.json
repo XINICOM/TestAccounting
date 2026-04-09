@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "TA_UI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "TA_UI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
