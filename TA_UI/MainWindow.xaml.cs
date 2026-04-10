@@ -36,17 +36,17 @@ namespace TA_UI
             }
         }
 
-        private async void DialogButton_Click(object sender, RoutedEventArgs e)
+        private async void DialogButton_Click(object sender , RoutedEventArgs e)
         {
             ContentDialog cd = new ContentDialog()
             {
-                Title = "Content Dialog",
-                Content = new Dialog1(),
-                PrimaryButtonText = "OK",
-                SecondaryButtonText = "Cancel",
-                CloseButtonText= "Close",
-                DefaultButton = ContentDialogButton.Primary,
-                Style = (Style)Application.Current.Resources["DefaultContentDialogStyle"],
+                Title = "Content Dialog" ,
+                Content = new Dialog1() ,
+                PrimaryButtonText = "OK" ,
+                SecondaryButtonText = "Cancel" ,
+                CloseButtonText = "Close" ,
+                DefaultButton = ContentDialogButton.Primary ,
+                Style = (Style)Application.Current.Resources["DefaultContentDialogStyle"] ,
             };
             cd.XamlRoot = this.Content.XamlRoot;
             var result = await cd.ShowAsync();
