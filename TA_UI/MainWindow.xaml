@@ -4,6 +4,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="using:TA_UI"
         xmlns:views="using:TA_UI.Views"
+        xmlns:control="using:CommunityToolkit.WinUI.Controls"
+        xmlns:ui="using:CommunityToolkit.WinUI"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
@@ -45,11 +47,18 @@
             </TitleBar.RightHeader>-->
         </TitleBar>
         <Grid Grid.Row="1">
-            <AutoSuggestBox PlaceholderText="Search..."
+            <!--<AutoSuggestBox PlaceholderText="Search..."
                             QueryIcon="Find"
                             VerticalAlignment="Center"
                             Height="32"
-                            HorizontalAlignment="Center" />
+                            HorizontalAlignment="Center" />-->
+            <control:TokenizingTextBox x:Name="TokenBox"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Height="auto"
+                                       PlaceholderText="Add Tokens..."
+                                       MaxWidth="540"
+                                       QueryIcon="{ui:FontIconSource Glyph=&#xE721;, FontSize=12}" />
         </Grid>
         <StackPanel Grid.Row="2"
                     VerticalAlignment="Center"
@@ -61,8 +70,8 @@
                     Click="DialogButton_Click"
                     Style="{StaticResource AccentButtonStyle }" />
             <Button Grid.Row="2"
-                    Content="back drop" 
-                    Click="BackdropButton_Click"/>
+                    Content="back drop"
+                    Click="BackdropButton_Click" />
         </StackPanel>
 
     </Grid>
