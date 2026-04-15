@@ -9,39 +9,61 @@
         mc:Ignorable="d"
         Title="TA_UI">
 
-    <Window.SystemBackdrop>
-        <MicaBackdrop Kind="Base" />
-    </Window.SystemBackdrop>
+    <!--<Window.SystemBackdrop>
+        <MicaBackdrop Kind="BaseAlt"/>
+    </Window.SystemBackdrop>-->
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TitleBar x:Name="AppTitleBar"
                   Grid.Row="0"
                   Title="Test_Accounting"
-                  Subtitle="UI">
+                  Subtitle="UI"
+                  IsBackButtonVisible="True"
+                  IsPaneToggleButtonVisible="True">
             <TitleBar.IconSource>
                 <FontIconSource Glyph="&#xEF15;" />
             </TitleBar.IconSource>
             <TitleBar.Content>
-                <AutoSuggestBox VerticalAlignment="Center"
-                                PlaceholderText="Search..."
+                <!--<AutoSuggestBox PlaceholderText="Search..."
                                 QueryIcon="Find"
-                                Width="360" />
+                                MinWidth="360" 
+                                Height="auto"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Stretch"/>-->
+                <TextBlock Text="this is an application" />
             </TitleBar.Content>
-            <TitleBar.RightHeader>
+            <!--<TitleBar.RightHeader>
                 <PersonPicture Width="24"
                                Height="24"
-                               Initials="ZH" />
-            </TitleBar.RightHeader>
+                               Initials="ZH"
+                               HorizontalAlignment="Right"/>
+            </TitleBar.RightHeader>-->
         </TitleBar>
-        <Button Grid.Row="1"
-                Content="dialog"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Click="DialogButton_Click"
-                Style="{StaticResource AccentButtonStyle }" />
+        <Grid Grid.Row="1">
+            <AutoSuggestBox PlaceholderText="Search..."
+                            QueryIcon="Find"
+                            VerticalAlignment="Center"
+                            Height="32"
+                            HorizontalAlignment="Center" />
+        </Grid>
+        <StackPanel Grid.Row="2"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Spacing="5">
+            <Button Content="dialog"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="DialogButton_Click"
+                    Style="{StaticResource AccentButtonStyle }" />
+            <Button Grid.Row="2"
+                    Content="back drop" 
+                    Click="BackdropButton_Click"/>
+        </StackPanel>
+
     </Grid>
 </Window>

@@ -1,3 +1,4 @@
+using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -30,10 +31,23 @@ namespace TA_UI
             InitializeComponent();
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
+
             if (ExtendsContentIntoTitleBar)
             {
                 AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
             }
+
+            //控制窗口的最小尺寸
+            if (AppWindow.Presenter is OverlappedPresenter presenter)
+            {
+                presenter.PreferredMinimumWidth = 1080;
+                presenter.PreferredMinimumHeight = 720;
+            }
+
+            //SystemBackdrop = new MicaBackdrop()
+            //{
+            //    Kind = MicaKind.Base
+            //};
         }
 
         private async void DialogButton_Click(object sender , RoutedEventArgs e)
@@ -50,6 +64,26 @@ namespace TA_UI
             };
             cd.XamlRoot = this.Content.XamlRoot;
             var result = await cd.ShowAsync();
+        }
+
+        //实现运行中对backdrop进行切换
+        private void BackdropButton_Click(object sender , RoutedEventArgs e)
+        {
+            if (SystemBackdrop == null)
+            {
+                SystemBackdrop = new MicaBackdrop()
+                {
+                    Kind = MicaKind.Base
+                };
+            }
+            else if (SystemBackdrop is MicaBackdrop)
+            {
+                SystemBackdrop = new DesktopAcrylicBackdrop();
+            }
+            else
+            {
+                SystemBackdrop = null;
+            }
         }
     }
 }
