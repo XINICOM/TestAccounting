@@ -95,7 +95,7 @@
                 <controls:TokenizingTextBox.TokenItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <Viewbox Width="16">
+                            <Viewbox Width="12">
                                 <SymbolIcon Symbol="{Binding Icon}" />
                             </Viewbox>
 

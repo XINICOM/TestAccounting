@@ -53,11 +53,12 @@ namespace TA_UI
             //    Kind = MicaKind.Base
             //};
 
-            SelectedTokens = new()
-            {
-                SuggestItemsList[0],
-                SuggestItemsList[1]
-            };
+            SelectedTokens = [];
+            //    new()
+            //{
+            //    //SuggestItemsList[0],
+            //    //SuggestItemsList[1]
+            //};
         }
 
         private async void DialogButton_Click(object sender, RoutedEventArgs e)
@@ -125,7 +126,7 @@ namespace TA_UI
             new SampleDataType() { Text = "Zoom", Icon = Symbol.Zoom },
             new SampleDataType() { Text = "ZoomIn", Icon = Symbol.ZoomIn },
             new SampleDataType() { Text = "ZoomOut", Icon = Symbol.ZoomOut },
-            new SampleDataType() { Text = "a", Icon = Symbol.OtherUser},
+            new SampleDataType() { Text = "ZYC", Icon = Symbol.Account},
         };
 
         public ObservableCollection<SampleDataType> SelectedTokens { get; set; }
@@ -142,10 +143,6 @@ namespace TA_UI
             Debug.WriteLine($"TextChanged:{sender.Text}");
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                //foreach (var item in SuggestItems)
-                //{
-                //    if (item.Text.Contains())
-                //}
                 List<SampleDataType> suitableItems = [];
                 var splitText = sender.Text.ToLower().TrimEnd(',').Split(" ");
                 foreach (var item in SuggestItemsList)
@@ -156,11 +153,11 @@ namespace TA_UI
                         suitableItems.Add(item);
                     }
                 }
-                //if (suitableItems.Count == 0)
-                //{
-                //    suitableItems.Add(new SampleDataType() { Text = "No tokens found" , Icon = Symbol.Cancel });
-                //}
-                //SuggestItems = suitableItems;
+                if (suitableItems.Count == 0)
+                {
+                    suitableItems.Add(new SampleDataType() { Text = sender.Text, Icon = Symbol.Add });
+
+                }
                 SuggestItems.Clear();
                 foreach (var item in suitableItems)
                 {
@@ -184,19 +181,33 @@ namespace TA_UI
             Debug.WriteLine("TokenItemCreating");
             // Take the user's text and convert it to our data type (if we have a matching one).
 #if !HAS_UNO
-            e.Item = SuggestItems.FirstOrDefault((item) => item.Text!.Contains(e.TokenText, StringComparison.CurrentCultureIgnoreCase));
-#else
-            e.Item = _samples.FirstOrDefault((item) => item.Text!.Contains(e.TokenText));
-#endif
-            // Otherwise, create a new version of our data type
-            if (e.Item == null)
+            if (SuggestItems[0].Icon != Symbol.Add)
+            {
+                e.Item = SuggestItems.FirstOrDefault((item) => item.Text!.Contains(e.TokenText, StringComparison.CurrentCultureIgnoreCase));
+            }
+            else
             {
                 e.Item = new SampleDataType()
                 {
                     Text = e.TokenText,
-                    Icon = Symbol.OutlineStar
+                    Icon = Symbol.OutlineStar,
+
                 };
             }
+            //e.Item = SuggestItems.FirstOrDefault((item) => item.Text!.Contains(e.TokenText, StringComparison.CurrentCultureIgnoreCase));
+#else
+            e.Item = _samples.FirstOrDefault((item) => item.Text!.Contains(e.TokenText));
+#endif
+            // Otherwise, create a new version of our data type
+            //if (e.Item == null)
+            //{
+            //    e.Item = new SampleDataType()
+            //    {
+            //        Text = e.TokenText,
+            //        Icon = Symbol.OutlineStar,
+                   
+            //    };
+            //}
         }
 
         private void TokenBox_ItemClick(object sender, ItemClickEventArgs e)
