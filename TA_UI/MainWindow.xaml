@@ -4,7 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="using:TA_UI"
         xmlns:views="using:TA_UI.Views"
-        xmlns:control="using:CommunityToolkit.WinUI.Controls"
+        xmlns:controls="using:CommunityToolkit.WinUI.Controls"
         xmlns:ui="using:CommunityToolkit.WinUI"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -52,13 +52,59 @@
                             VerticalAlignment="Center"
                             Height="32"
                             HorizontalAlignment="Center" />-->
-            <control:TokenizingTextBox x:Name="TokenBox"
+            <!--<control:TokenizingTextBox x:Name="TokenBox"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Height="auto"
                                        PlaceholderText="Add Tokens..."
                                        MaxWidth="540"
-                                       QueryIcon="{ui:FontIconSource Glyph=&#xE721;, FontSize=12}" />
+                                       QueryIcon="{ui:FontIconSource Glyph=&#xE721;, FontSize=12}" />-->
+
+            <controls:TokenizingTextBox x:Name="TokenBox"
+                                        MaxWidth="540"
+                                        HorizontalAlignment="Center"
+                                        ItemClick="TokenBox_ItemClick"
+                                        ItemsSource="{x:Bind SelectedTokens, Mode=TwoWay}"
+                                        Loaded="TokenBox_Loaded"
+                                        PlaceholderText="Add Tokens..."
+                                        QueryIcon="{ui:FontIconSource Glyph=&#xE721;}"
+                                        SuggestedItemsSource="{x:Bind SuggestItems, Mode=OneWay}"
+                                        TextChanged="TextChanged"
+                                        TextMemberPath="Text"
+                                        TokenDelimiter=","
+                                        TokenItemAdding="TokenItemCreating">
+                <!--<controls:TokenizingTextBox.Header>
+                    <TextBlock>
+                    <Run Text="Start typing and select up to" />
+                    <Run FontWeight="SemiBold"
+                         Text="{Binding MaximumTokens, ElementName=TokenBox, Mode=OneWay}" />
+                    <Run Text="actions" />
+                    </TextBlock>
+                </controls:TokenizingTextBox.Header>-->
+                <controls:TokenizingTextBox.SuggestedItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Viewbox Width="16">
+                                <SymbolIcon Symbol="{Binding Icon}" />
+                            </Viewbox>
+                            <TextBlock Padding="8,0,0,0"
+                                       Text="{Binding Text}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </controls:TokenizingTextBox.SuggestedItemTemplate>
+                <controls:TokenizingTextBox.TokenItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Viewbox Width="16">
+                                <SymbolIcon Symbol="{Binding Icon}" />
+                            </Viewbox>
+
+                            <TextBlock Padding="8,0,0,0"
+                                       Text="{Binding Text}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </controls:TokenizingTextBox.TokenItemTemplate>
+            </controls:TokenizingTextBox>
         </Grid>
         <StackPanel Grid.Row="2"
                     VerticalAlignment="Center"
