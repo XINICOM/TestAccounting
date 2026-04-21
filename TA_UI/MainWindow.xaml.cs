@@ -127,6 +127,7 @@ namespace TA_UI
             new SampleDataType() { Text = "ZoomIn", Icon = Symbol.ZoomIn },
             new SampleDataType() { Text = "ZoomOut", Icon = Symbol.ZoomOut },
             new SampleDataType() { Text = "ZYC", Icon = Symbol.Account},
+            new SampleDataType() { Text = "a", Icon = Symbol.Admin},
         };
 
         public ObservableCollection<SampleDataType> SelectedTokens { get; set; }
@@ -140,7 +141,7 @@ namespace TA_UI
 
         private void TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            Debug.WriteLine($"TextChanged:{sender.Text}");
+            //Debug.WriteLine($"TextChanged:{sender.Text}");
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 List<SampleDataType> suitableItems = [];
@@ -155,6 +156,7 @@ namespace TA_UI
                 }
                 if (suitableItems.Count == 0)
                 {
+                    
                     suitableItems.Add(new SampleDataType() { Text = sender.Text, Icon = Symbol.Add });
 
                 }
@@ -164,9 +166,10 @@ namespace TA_UI
                     SuggestItems.Add(item);
                 }
 
+
             }
             //currentEdit.Text = TokenBox.Text;
-            SetSelectedTokenText();
+            //SetSelectedTokenText();
         }
 
         private void SetSelectedTokenText()
@@ -183,7 +186,7 @@ namespace TA_UI
 #if !HAS_UNO
             if (SuggestItems[0].Icon != Symbol.Add)
             {
-                e.Item = SuggestItems.FirstOrDefault((item) => item.Text!.Contains(e.TokenText, StringComparison.CurrentCultureIgnoreCase));
+                e.Item = SuggestItems.OrderBy(x=>x.Text).FirstOrDefault((item) => item.Text!.Contains(e.TokenText, StringComparison.CurrentCultureIgnoreCase));
             }
             else
             {
