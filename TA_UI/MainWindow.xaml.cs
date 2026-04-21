@@ -156,8 +156,19 @@ namespace TA_UI
                 }
                 if (suitableItems.Count == 0)
                 {
-                    
-                    suitableItems.Add(new SampleDataType() { Text = sender.Text, Icon = Symbol.Add });
+                    if (sender.Text.Contains('-'))
+                    {
+                        string[] Numbers = [];
+                        Numbers = sender.Text.Split('-');
+                        if (float.TryParse(Numbers[0], out float i0) && float.TryParse(Numbers[1], out float i1))
+                        {
+                            suitableItems.Add(new SampleDataType() { Text = sender.Text, Icon = Symbol.Edit, RangeLow = i0, RangeHigh = i1 });
+                        }
+                    }
+                    else
+                    {
+                        suitableItems.Add(new SampleDataType() { Text = sender.Text, Icon = Symbol.Add });
+                    }
 
                 }
                 SuggestItems.Clear();
@@ -171,6 +182,8 @@ namespace TA_UI
             //currentEdit.Text = TokenBox.Text;
             //SetSelectedTokenText();
         }
+
+
 
         private void SetSelectedTokenText()
         {
@@ -186,7 +199,7 @@ namespace TA_UI
 #if !HAS_UNO
             if (SuggestItems[0].Icon != Symbol.Add)
             {
-                e.Item = SuggestItems.OrderBy(x=>x.Text).FirstOrDefault((item) => item.Text!.Contains(e.TokenText, StringComparison.CurrentCultureIgnoreCase));
+                e.Item = SuggestItems.OrderBy(x => x.Text).FirstOrDefault((item) => item.Text!.Contains(e.TokenText, StringComparison.CurrentCultureIgnoreCase));
             }
             else
             {
@@ -208,7 +221,7 @@ namespace TA_UI
             //    {
             //        Text = e.TokenText,
             //        Icon = Symbol.OutlineStar,
-                   
+
             //    };
             //}
         }
@@ -240,5 +253,8 @@ namespace TA_UI
     {
         public string? Text { get; set; }
         public Symbol? Icon { get; set; }
+        public float? RangeLow { get; set; }
+        public float? RangeHigh { get; set; }
+        //public FontIcon? FontIcon { get; set; }
     }
 }
