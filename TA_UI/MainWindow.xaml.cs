@@ -256,7 +256,7 @@ namespace TA_UI
         public float? RangeLow { get; set; }
         public float? RangeHigh { get; set; }
 
-        //fonticon replace symbleicon？
+        //fi
         public FontIcon? FontIcon { get; set; }
 
     }
