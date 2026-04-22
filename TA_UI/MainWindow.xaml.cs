@@ -171,12 +171,15 @@ namespace TA_UI
                     }
 
                 }
+                //suitableItems.OrderBy(x => x.Text);
+                suitableItems.Sort((x, y) => StringComparer.Ordinal.Compare(x.Text!.ToLower(), y.Text!.ToLower()));
                 SuggestItems.Clear();
                 foreach (var item in suitableItems)
                 {
                     SuggestItems.Add(item);
+                    Debug.WriteLine(item.Text);
                 }
-
+                Debug.WriteLine("#######################");
 
             }
             //currentEdit.Text = TokenBox.Text;
