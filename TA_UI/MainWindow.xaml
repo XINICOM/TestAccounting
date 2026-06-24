@@ -118,6 +118,10 @@
             <Button Grid.Row="2"
                     Content="back drop"
                     Click="BackdropButton_Click" />
+            <Button x:Name="BrowserBtn"
+                    Grid.Row="2"
+                    Content="Browser"
+                    Click="SelectFolder" />
         </StackPanel>
 
     </Grid>

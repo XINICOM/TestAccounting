@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -13,15 +8,22 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+//using Microsoft.Windows.Storage.Pickers;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using TA_UI.Views;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using CommunityToolkit.WinUI.Controls;
-using System.Diagnostics;
-
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using Windows.System;
+using WinRT.Interop;
 
 namespace TA_UI
 {
@@ -61,6 +63,122 @@ namespace TA_UI
             //};
         }
 
+
+        public async Task PickFolderAtCustomPath(string customPath)
+        {
+            var folderPicker = new FolderPicker();
+            folderPicker.FileTypeFilter.Add("*");
+
+            // 绑定窗口
+            IntPtr hwnd = WindowNative.GetWindowHandle(this);
+            InitializeWithWindow.Initialize(folderPicker, hwnd);
+
+            // 关键：先获取 StorageFolder
+            StorageFolder startFolder = await StorageFolder.GetFolderFromPathAsync(customPath);
+
+            // 让 FolderPicker 从该目录开始
+            folderPicker.SuggestedStartLocation = PickerLocationId.Desktop;
+
+            // 打开选取器
+            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+            if (folder != null)
+            {
+                Debug.WriteLine($"选择了：{folder.Path}");
+            }
+        }
+
+
+        private async void SelectFolder(object sender, RoutedEventArgs e)
+        {
+            //await PickFolderAtCustomPath();
+
+            var folderPicker = new FolderPicker();
+            folderPicker.FileTypeFilter.Add("*");
+
+            // 绑定窗口
+            IntPtr hwnd = WindowNative.GetWindowHandle(this);
+            InitializeWithWindow.Initialize(folderPicker, hwnd);
+
+            // 关键：先获取 StorageFolder
+            StorageFolder startFolder = await StorageFolder.GetFolderFromPathAsync(@"C:\Users\XINIC\Downloads");
+            await Launcher.LaunchFolderAsync(startFolder);
+
+            // 让 FolderPicker 从该目录开始
+            folderPicker.SuggestedStartLocation = PickerLocationId.Desktop;
+
+            // 打开选取器
+            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+            if (folder != null)
+            {
+                Debug.WriteLine($"选择了：{folder.Path}");
+            }
+
+            ///不可以自定义初始路径
+            //var folderPicker = new Microsoft.Windows.Storage.Pickers.FolderPicker(AppWindow.Id)
+            //{
+            //    SuggestedStartLocation = Microsoft.Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary,
+            //    CommitButtonText = "选择文件夹",
+            //};
+            //string customInitPath = @"C:\Users\XINIC\Downloads\";
+            //if (Directory.Exists(customInitPath))
+            //{
+            //    StorageFolder initFolder = await StorageFolder.GetFolderFromPathAsync(customInitPath);
+            //    //folderPicker.SuggestedFolder = initFolder;
+            //}
+            //var result = await folderPicker.PickSingleFolderAsync();
+
+
+            ///可以自定义初始路径
+            //var savePicker = new FileSavePicker(AppWindow.Id)
+            //{
+            //    SuggestedFileName = "我的文档",
+            //    SuggestedFolder = @"C:\Users\XINIC\Downloads\",
+            //    FileTypeChoices =
+            //    {
+            //        { "文本文档", new List<string> { ".txt" } },
+            //        { "Word 文档", new List<string> { ".docx" } }
+            //    },
+            //    DefaultFileExtension = ".txt"
+            //};
+            //var result = await savePicker.PickSaveFileAsync();
+
+
+
+            //var openPicker = new FileOpenPicker(this.AppWindow.Id)
+            //{
+
+            //    SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
+            //    FileTypeFilter = { ".txt", ".pdf", ".docx" }
+            //};
+            //var result = await openPicker.PickSingleFileAsync();
+            //if (result != null)
+            //{
+            //    BrowserBtn.Content = result.Path;
+            //}
+            //else
+            //{
+            //    BrowserBtn.Content = "NoSelected";
+            //}
+            //var folderPicker = new Windows.Storage.Pickers.FolderPicker();
+            //// 必须绑定窗口句柄
+            //IntPtr hwnd = WindowNative.GetWindowHandle(this);
+            //InitializeWithWindow.Initialize(folderPicker, hwnd);
+
+            //folderPicker.FileTypeFilter.Add("*");
+            //string customInitPath = @"C:\Users\XINIC\Downloads\";
+            //if (Directory.Exists(customInitPath))
+            //{
+            //    StorageFolder initFolder = await StorageFolder.GetFolderFromPathAsync(customInitPath);
+            //    await folderPicker.TrySetFolderAsync(initFolder);
+            //}
+
+            //StorageFolder result = await folderPicker.PickSingleFolderAsync();
+            //if (result != null)
+            //{
+            //    string path = result.Path;
+            //}
+        }
+
         private async void DialogButton_Click(object sender, RoutedEventArgs e)
         {
             ContentDialog cd = new ContentDialog()
@@ -73,7 +191,7 @@ namespace TA_UI
                 DefaultButton = ContentDialogButton.Primary,
                 Style = (Style)Application.Current.Resources["DefaultContentDialogStyle"],
             };
-            cd.XamlRoot = this.Content.XamlRoot;
+            cd.XamlRoot = Content.XamlRoot;
             var result = await cd.ShowAsync();
         }
 
