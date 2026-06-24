@@ -11,13 +11,8 @@
         mc:Ignorable="d"
         Title="TA_UI">
 
-    <!--<Window.SystemBackdrop>
-        <MicaBackdrop Kind="BaseAlt"/>
-    </Window.SystemBackdrop>-->
-
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -31,98 +26,52 @@
                 <FontIconSource Glyph="&#xEF15;" />
             </TitleBar.IconSource>
             <TitleBar.Content>
-                <!--<AutoSuggestBox PlaceholderText="Search..."
-                                QueryIcon="Find"
-                                MinWidth="360" 
-                                Height="auto"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Stretch"/>-->
                 <TextBlock Text="this is an application" />
             </TitleBar.Content>
-            <!--<TitleBar.RightHeader>
-                <PersonPicture Width="24"
-                               Height="24"
-                               Initials="ZH"
-                               HorizontalAlignment="Right"/>
-            </TitleBar.RightHeader>-->
         </TitleBar>
         <Grid Grid.Row="1">
-            <!--<AutoSuggestBox PlaceholderText="Search..."
-                            QueryIcon="Find"
-                            VerticalAlignment="Center"
-                            Height="32"
-                            HorizontalAlignment="Center" />-->
-            <!--<control:TokenizingTextBox x:Name="TokenBox"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Height="auto"
-                                       PlaceholderText="Add Tokens..."
-                                       MaxWidth="540"
-                                       QueryIcon="{ui:FontIconSource Glyph=&#xE721;, FontSize=12}" />-->
-
-            <controls:TokenizingTextBox x:Name="TokenBox"
-                                        MaxWidth="540"
-                                        HorizontalAlignment="Center"
-                                        ItemClick="TokenBox_ItemClick"
-                                        ItemsSource="{x:Bind SelectedTokens, Mode=TwoWay}"
-                                        Loaded="TokenBox_Loaded"
-                                        PlaceholderText="Add Tokens..."
-                                        QueryIcon="{ui:FontIconSource Glyph=&#xE721;}"
-                                        SuggestedItemsSource="{x:Bind SuggestItems, Mode=OneWay}"
-                                        TextChanged="TextChanged"
-                                        TextMemberPath="Text"
-                                        TokenDelimiter=","
-                                        TokenItemAdding="TokenItemCreating">
-                <!--<controls:TokenizingTextBox.Header>
-                    <TextBlock>
-                    <Run Text="Start typing and select up to" />
-                    <Run FontWeight="SemiBold"
-                         Text="{Binding MaximumTokens, ElementName=TokenBox, Mode=OneWay}" />
-                    <Run Text="actions" />
-                    </TextBlock>
-                </controls:TokenizingTextBox.Header>-->
-                <controls:TokenizingTextBox.SuggestedItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Viewbox Width="16">
-                                <SymbolIcon Symbol="{Binding Icon}" />
-                            </Viewbox>
-                            <TextBlock Padding="8,0,0,0"
-                                       Text="{Binding Text}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </controls:TokenizingTextBox.SuggestedItemTemplate>
-                <controls:TokenizingTextBox.TokenItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Viewbox Width="12">
-                                <SymbolIcon Symbol="{Binding Icon}" />
-                            </Viewbox>
-
-                            <TextBlock Padding="8,0,0,0"
-                                       Text="{Binding Text}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </controls:TokenizingTextBox.TokenItemTemplate>
-            </controls:TokenizingTextBox>
-        </Grid>
-        <StackPanel Grid.Row="2"
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TreeView x:Name="TreeView"
+                          ItemsSource="{x:Bind FileFolderNodes}"
+                          Grid.Column="0"
+                          CanDrag="False"
+                          Height="Auto"
+                          SelectionMode="Multiple">
+                    <TreeView.ItemTemplate>
+                        <DataTemplate x:DataType="local:FileFolderNode">
+                            <TreeViewItem ItemsSource="{x:Bind Children}"
+                                          Content="{x:Bind Name}"
+                                          CanDrag="False"
+                                          DragStarting="TreeViewItem_DragStarting"/>
+                        </DataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </Grid>
+            <StackPanel Grid.Column="1"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Spacing="5">
-            <Button Content="dialog"
+                <Button Content="dialog"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Click="DialogButton_Click"
                     Style="{StaticResource AccentButtonStyle }" />
-            <Button Grid.Row="2"
+                <Button Grid.Row="2"
                     Content="back drop"
                     Click="BackdropButton_Click" />
-            <Button x:Name="BrowserBtn"
+                <Button x:Name="BrowserBtn"
                     Grid.Row="2"
                     Content="Browser"
                     Click="SelectFolder" />
-        </StackPanel>
+            </StackPanel>
 
+        </Grid>
     </Grid>
+
+
+
 </Window>

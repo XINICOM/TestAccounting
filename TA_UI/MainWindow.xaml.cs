@@ -8,6 +8,8 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.Windows.Storage.Pickers;
+
 //using Microsoft.Windows.Storage.Pickers;
 using System;
 using System.Collections.Generic;
@@ -64,68 +66,68 @@ namespace TA_UI
         }
 
 
-        public async Task PickFolderAtCustomPath(string customPath)
-        {
-            var folderPicker = new FolderPicker();
-            folderPicker.FileTypeFilter.Add("*");
+        //public async Task PickFolderAtCustomPath(string customPath)
+        //{
+        //    var folderPicker = new FolderPicker();
+        //    folderPicker.FileTypeFilter.Add("*");
 
-            // 绑定窗口
-            IntPtr hwnd = WindowNative.GetWindowHandle(this);
-            InitializeWithWindow.Initialize(folderPicker, hwnd);
+        //    // 绑定窗口
+        //    IntPtr hwnd = WindowNative.GetWindowHandle(this);
+        //    InitializeWithWindow.Initialize(folderPicker, hwnd);
 
-            // 关键：先获取 StorageFolder
-            StorageFolder startFolder = await StorageFolder.GetFolderFromPathAsync(customPath);
+        //    // 关键：先获取 StorageFolder
+        //    StorageFolder startFolder = await StorageFolder.GetFolderFromPathAsync(customPath);
 
-            // 让 FolderPicker 从该目录开始
-            folderPicker.SuggestedStartLocation = PickerLocationId.Desktop;
+        //    // 让 FolderPicker 从该目录开始
+        //    folderPicker.SuggestedStartLocation = PickerLocationId.Desktop;
 
-            // 打开选取器
-            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
-            if (folder != null)
-            {
-                Debug.WriteLine($"选择了：{folder.Path}");
-            }
-        }
+        //    // 打开选取器
+        //    StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+        //    if (folder != null)
+        //    {
+        //        Debug.WriteLine($"选择了：{folder.Path}");
+        //    }
+        //}
 
 
         private async void SelectFolder(object sender, RoutedEventArgs e)
         {
-            //await PickFolderAtCustomPath();
+            ////await PickFolderAtCustomPath();
 
-            var folderPicker = new FolderPicker();
-            folderPicker.FileTypeFilter.Add("*");
+            //var folderPicker = new FolderPicker();
+            //folderPicker.FileTypeFilter.Add("*");
 
-            // 绑定窗口
-            IntPtr hwnd = WindowNative.GetWindowHandle(this);
-            InitializeWithWindow.Initialize(folderPicker, hwnd);
+            //// 绑定窗口
+            //IntPtr hwnd = WindowNative.GetWindowHandle(this);
+            //InitializeWithWindow.Initialize(folderPicker, hwnd);
 
-            // 关键：先获取 StorageFolder
-            StorageFolder startFolder = await StorageFolder.GetFolderFromPathAsync(@"C:\Users\XINIC\Downloads");
-            await Launcher.LaunchFolderAsync(startFolder);
+            //// 关键：先获取 StorageFolder
+            //StorageFolder startFolder = await StorageFolder.GetFolderFromPathAsync(@"C:\Users\XINIC\Downloads");
+            //await Launcher.LaunchFolderAsync(startFolder);
 
-            // 让 FolderPicker 从该目录开始
-            folderPicker.SuggestedStartLocation = PickerLocationId.Desktop;
+            //// 让 FolderPicker 从该目录开始
+            //folderPicker.SuggestedStartLocation = PickerLocationId.Desktop;
 
-            // 打开选取器
-            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
-            if (folder != null)
-            {
-                Debug.WriteLine($"选择了：{folder.Path}");
-            }
+            //// 打开选取器
+            //StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+            //if (folder != null)
+            //{
+            //    Debug.WriteLine($"选择了：{folder.Path}");
+            //}
 
             ///不可以自定义初始路径
-            //var folderPicker = new Microsoft.Windows.Storage.Pickers.FolderPicker(AppWindow.Id)
-            //{
-            //    SuggestedStartLocation = Microsoft.Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary,
-            //    CommitButtonText = "选择文件夹",
-            //};
-            //string customInitPath = @"C:\Users\XINIC\Downloads\";
-            //if (Directory.Exists(customInitPath))
-            //{
-            //    StorageFolder initFolder = await StorageFolder.GetFolderFromPathAsync(customInitPath);
-            //    //folderPicker.SuggestedFolder = initFolder;
-            //}
-            //var result = await folderPicker.PickSingleFolderAsync();
+            var folderPicker = new Microsoft.Windows.Storage.Pickers.FolderPicker(AppWindow.Id)
+            {
+                SuggestedStartLocation = Microsoft.Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary,
+                CommitButtonText = "选择文件夹",
+            };
+            string customInitPath = @"C:\Users\XINIC\Downloads\";
+            if (Directory.Exists(customInitPath))
+            {
+                StorageFolder initFolder = await StorageFolder.GetFolderFromPathAsync(customInitPath);
+                //folderPicker.SuggestedFolder = initFolder;
+            }
+            PickFolderResult result = await folderPicker.PickSingleFolderAsync();
 
 
             ///可以自定义初始路径
@@ -143,41 +145,38 @@ namespace TA_UI
             //var result = await savePicker.PickSaveFileAsync();
 
 
-
-            //var openPicker = new FileOpenPicker(this.AppWindow.Id)
-            //{
-
-            //    SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
-            //    FileTypeFilter = { ".txt", ".pdf", ".docx" }
-            //};
-            //var result = await openPicker.PickSingleFileAsync();
-            //if (result != null)
-            //{
-            //    BrowserBtn.Content = result.Path;
-            //}
-            //else
-            //{
-            //    BrowserBtn.Content = "NoSelected";
-            //}
-            //var folderPicker = new Windows.Storage.Pickers.FolderPicker();
-            //// 必须绑定窗口句柄
-            //IntPtr hwnd = WindowNative.GetWindowHandle(this);
-            //InitializeWithWindow.Initialize(folderPicker, hwnd);
-
-            //folderPicker.FileTypeFilter.Add("*");
-            //string customInitPath = @"C:\Users\XINIC\Downloads\";
-            //if (Directory.Exists(customInitPath))
-            //{
-            //    StorageFolder initFolder = await StorageFolder.GetFolderFromPathAsync(customInitPath);
-            //    await folderPicker.TrySetFolderAsync(initFolder);
-            //}
-
             //StorageFolder result = await folderPicker.PickSingleFolderAsync();
-            //if (result != null)
-            //{
-            //    string path = result.Path;
-            //}
+            if (result == null)
+                return;
+
+
+            FileFolderNodes.Clear();
+            FileFolderNodes.Add(NodeBuilder(result.Path));
         }
+
+        public FileFolderNode NodeBuilder(string path)
+        {
+            if (File.Exists(path))
+            {
+                var fi = new FileInfo(path);
+                return new FileFolderNode(true, fi.Name, path);
+            }
+            else if (Directory.Exists(path))
+            {
+                var di = new DirectoryInfo(path);
+                var result = new FileFolderNode(false, di.Name, path);
+                var c = Directory.GetFileSystemEntries(path);
+                foreach (var entry in c)
+                {
+                    result.Children.Add(NodeBuilder(entry));
+                }
+                return result;
+            }
+            else
+                throw new DirectoryNotFoundException($"目录不存在: {path}");
+        }
+
+        public ObservableCollection<FileFolderNode> FileFolderNodes { get; set; } = [];
 
         private async void DialogButton_Click(object sender, RoutedEventArgs e)
         {
@@ -304,8 +303,6 @@ namespace TA_UI
             //SetSelectedTokenText();
         }
 
-
-
         private void SetSelectedTokenText()
         {
             Debug.WriteLine("SetSelectedTokenText");
@@ -368,6 +365,10 @@ namespace TA_UI
             SetSelectedTokenText();
         }
 
+        private void TreeViewItem_DragStarting(UIElement sender, DragStartingEventArgs args)
+        {
+            args.Cancel = true;
+        }
     }
 
     public class SampleDataType
@@ -380,5 +381,20 @@ namespace TA_UI
         //fi
         public FontIcon? FontIcon { get; set; }
 
+    }
+
+    public class FileFolderNode
+    {
+        public FileFolderNode(bool isFile, string name, string path)
+        {
+            IsFile = isFile;
+            Name = name;
+            Path = path;
+        }
+
+        public bool IsFile { get; set; }
+        public string Name { get; set; }
+        public string Path { get; set; }
+        public ObservableCollection<FileFolderNode> Children { get; set; } = [];
     }
 }
